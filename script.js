@@ -1,4 +1,4 @@
-
+// BUBBLE SORT ------------------------------
 const fs = require('fs');
 const fileName = process.argv[2];
 var arrayFile;
@@ -10,7 +10,6 @@ try {
     console.error(error.message);
 }
 bubbleSort(arrayFile);
-// BUBBLE SORT ------------------------------
 function bubbleSort(arr) {
   let count = 0;
   for (let i = 0; i < arr.length; i++) {
