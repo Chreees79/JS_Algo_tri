@@ -1,46 +1,30 @@
+
 const fs = require('fs');
 const fileName = process.argv[2];
-// BUBBLE SORT -----------------------------------------------------
-function bubble(){
-  fs.readFile(fileName, 'utf8', (error, data) => {
-      if (error) {
-          console.error(error.message);
-          return ;
-      }
-      const arrayFile = data.split(" ").map((x) => Number.parseInt(x));
-    bubbleSort(arrayFile);
-  });
+var arrayFile;
 
-  const alreadySorted = (arr) => {
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i] < arr[i + 1]) {
-        return false;
+try {
+    const data = fs.readFileSync(fileName, 'utf8');
+    arrayFile = data.split(' ').map(element => parseFloat(element));
+} catch (error) {
+    console.error(error.message);
+}
+bubbleSort(arrayFile);
+// BUBBLE SORT ------------------------------
+function bubbleSort(arr) {
+  let count = 0;
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - i - 1; j++) {
+      count += 1;
+      if (arr[j] > arr[j + 1]) {
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
       }
-      return true;
     }
-  };
-
-  const bubbleSort = (arr) => {
-    let count = 0;
-    for (let i = 0; i < arr.length; i++) {
-      for (let j = 1; j < arr.length; j++) {
-        count += 1;
-        if (arr[j] < arr[j - 1]) swapBubble(arr, j);
-      }
-      if (alreadySorted(arr)) return console.log(`tri à bulle: ${count} comparaisons - [${arr}]`);
-    }
-    console.log(`tri à bulle: ${count} comparaisons - [${arr}]`);
-  };
-
-  const swapBubble = (data, x) => {
-    let temp = data[x];
-    data[x] = data[x - 1];
-    data[x - 1] = temp;
   }
-};
-bubble();
+console.log(`tri à bulle: ${count} comparaisons - [${arr}]`);
+}
 
-// INSERTION SORT ----------------------------------------------------------------
+// INSERTION SORT -----------------------------
 function insertion(){
   fs.readFile(fileName, 'utf8', (error, data) => {
     if (error) {
@@ -50,6 +34,7 @@ function insertion(){
     const arrayFile = data.split(" ").map((x) => Number.parseInt(x));
   insertSort(arrayFile);
 });
+
   const insertSort = (arr) => {
     let count = 0;
     for(let i = 1; i < arr.length; i++) {
@@ -79,31 +64,26 @@ function selection() {
     const arrayFile = data.split(" ").map((x) => Number.parseInt(x));
   selectionSort(arrayFile);
 });
+
   const selectionSort = (arr) => {
-    let len = arr.length;
-    let count = 0;
-        
-    for(let i = 0; i < len; i++) {
-        // Finding the smallest number in the subarray
+    let count = 0;      
+    for(let i = 0; i < arr.length; i++) {
         let min = i;
-        for(let j = i+1; j < len; j++){
+        for(let j = i + 1; j < arr.length; j++){
           count += 1;
             if(arr[j] < arr[min]) {
-                min=j; 
+                min = j; 
             }
         }
         if (min != i) {
-             // Swapping the elements
-            let temp = arr[i]; 
-            arr[i] = arr[min];
-            arr[min] = temp;      
+            [arr[i], arr[min]] = [arr[min], arr[i]];    
         }
     }
     console.log(`tri par sélection: ${count} comparaisons - [${arr}]`);
-    return arr;
   }
 };
 selection();
+
 
 // QUICK SORT -----------------------------------------------------------
 function quick(){
@@ -117,21 +97,20 @@ function quick(){
   quickSort(arrayFile)
   console.log(`tri rapide: ${count} comparaisons - [${arrayFile}]`);
   });
+
   const partition = (arr, indexBegin, indexFinish) => {
-    const pivotValue = arr[indexBegin]
-    let swapIndex = indexBegin
+    const pivotValue = arr[indexBegin];
+    let swapIndex = indexBegin;
     for (let i = indexBegin + 1; i <= indexFinish; i++) {
       count += 1;
       if (pivotValue > arr[i]) {
         swapIndex++
         if (i !== swapIndex) {
-          // SWAP
           [arr[i], arr[swapIndex]] = [arr[swapIndex], arr[i]]
         }
       }
     }
     if (swapIndex !== indexBegin) {
-      // Swap pivot into correct place
       [arr[swapIndex], arr[indexBegin]] = [arr[indexBegin], arr[swapIndex]]
     }
     return swapIndex
@@ -147,4 +126,4 @@ function quick(){
     return;
   };
 };
-quick();
+quick(); 
